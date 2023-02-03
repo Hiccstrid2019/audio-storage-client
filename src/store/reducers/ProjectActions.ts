@@ -2,6 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import ProjectService from "../../services/ProjectService";
 import AudioService from "../../services/AudioService";
 import {IAudio} from "../../models/IAudio";
+import {RootState} from "../store";
 
 export const fetchProjects = createAsyncThunk(
     'project/fetchProjects',
@@ -11,6 +12,14 @@ export const fetchProjects = createAsyncThunk(
             return response.data;
         } catch (e) {
             return thunkAPI.rejectWithValue(e);
+        }
+    },
+    {
+        condition: (_, {getState}) => {
+            const state = getState() as RootState;
+            const {fetchStatus} = state.projectReducer;
+            if (fetchStatus === 'fulfilled' || fetchStatus === 'loading')
+                return false;
         }
     }
 )
