@@ -11,14 +11,16 @@ import {
 } from "./ProjectActions";
 import {PosterResponse} from "../../models/response/PosterResponse";
 
-interface ProjectState {
+export interface ProjectState {
     projects: IProject[];
     isLoading: boolean;
+    fetchStatus: string | undefined;
 }
 
 const initialState: ProjectState = {
     projects: [],
-    isLoading: false
+    isLoading: false,
+    fetchStatus: undefined
 }
 
 export const projectSlice = createSlice({
@@ -27,59 +29,62 @@ export const projectSlice = createSlice({
     reducers: {
 
     },
-    extraReducers: {
-        [fetchProjects.fulfilled.type]: (state: ProjectState, action: PayloadAction<IProject[]>) => {
+    extraReducers: (builder) => {
+        builder
+        .addCase(fetchProjects.fulfilled, (state: ProjectState, action: PayloadAction<IProject[]>) => {
             state.isLoading = false;
+            state.fetchStatus = 'fulfilled';
             state.projects = action.payload;
-        },
-        [fetchProjects.pending.type]: (state: ProjectState) => {
+        })
+        .addCase(fetchProjects.pending, (state: ProjectState) => {
             state.isLoading = true;
-        },
-        [fetchProjects.pending.type]: (state: ProjectState, action: PayloadAction<string>) => {
+            state.fetchStatus = 'loading';
+        })
+        .addCase(fetchProjects.rejected, (state: ProjectState) => {
             state.isLoading = false;
-        },
+        })
 
-        [fetchProject.fulfilled.type]: (state: ProjectState, action: PayloadAction<IProject>) => {
+        .addCase(fetchProject.fulfilled, (state: ProjectState, action: PayloadAction<IProject>) => {
           state.projects.push(action.payload);
-        },
+        })
 
 
-        [addProject.fulfilled.type]: (state: ProjectState, action: PayloadAction<IProject>) => {
+        .addCase(addProject.fulfilled, (state: ProjectState, action: PayloadAction<IProject>) => {
             state.projects.push(action.payload);
-        },
-        [addProject.rejected.type]: (state: ProjectState, action: PayloadAction<string>) => {
-            console.log(action.payload)
-        },
+        })
+        .addCase(addProject.rejected, (state: ProjectState) => {
 
-        [addAudio.fulfilled.type]: (state: ProjectState, action: PayloadAction<CreatedAudio>) => {
+        })
+
+        .addCase(addAudio.fulfilled, (state: ProjectState, action: PayloadAction<CreatedAudio>) => {
             const project = state.projects.find(l => l.id === action.payload.lessonId);
             project!.audios = project?.audios || [];
             project?.audios?.push(action.payload.audio);
-        },
-        [addAudio.rejected.type]: (state: ProjectState, action: PayloadAction<string>) => {
-            console.log(action.payload)
-        },
+        })
+        .addCase(addAudio.rejected, (state: ProjectState) => {
 
-        [deleteProject.fulfilled.type]: (state: ProjectState, action: PayloadAction<IProject>) => {
+        })
+
+        .addCase(deleteProject.fulfilled, (state: ProjectState, action: PayloadAction<IProject>) => {
             state.projects = state.projects.filter(lesson => lesson.id !== action.payload.id);
-        },
+        })
 
-        [updateProject.fulfilled.type]: (state: ProjectState, action: PayloadAction<IProject>) => {
+        .addCase(updateProject.fulfilled, (state: ProjectState, action: PayloadAction<IProject>) => {
             const project = state.projects.find(p => p.id === action.payload.id);
             project!.title = action.payload.title;
             project!.category = action.payload.category;
             project!.timeModified = action.payload.timeModified;
-        },
+        })
 
-        [addPoster.fulfilled.type]: (state: ProjectState, action: PayloadAction<PosterResponse>) => {
+        .addCase(addPoster.fulfilled, (state: ProjectState, action: PayloadAction<PosterResponse>) => {
             const project = state.projects.find(project => project.id === action.payload.projectId);
             project!.posterUrl = action.payload.posterUrl;
-        },
+        })
 
-        [deleteAudio.fulfilled.type]: (state: ProjectState, action: PayloadAction<DeletedAudio>) => {
+        .addCase(deleteAudio.fulfilled, (state: ProjectState, action: PayloadAction<DeletedAudio>) => {
             const project = state.projects.find(project => project.id === action.payload.projectId);
             project!.audios = project!.audios?.filter(a => a.id !== action.payload.audioId);
-        }
+        })
     }
 })
 
