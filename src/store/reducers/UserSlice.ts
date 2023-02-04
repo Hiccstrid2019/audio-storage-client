@@ -60,13 +60,12 @@ export const userSlice = createSlice({
             .addCase(checkAuth.rejected, (state: UserState) => {
                 state.isLoading = false;
             })
-            .addCase(logout.fulfilled, (state: UserState, action: PayloadAction<void>) => {
+            .addCase(logout.fulfilled, (state: UserState) => {
                 state.isAuth = false;
                 localStorage.removeItem('token');
                 state.username = '';
             })
-            .addCase(logout.rejected, (state: UserState, action: PayloadAction<any>) => {
-                console.log(action.payload);
+            .addCase(logout.rejected, (state: UserState) => {
             })
     }
 })

@@ -120,11 +120,12 @@ const ProjectPage = () => {
         setEditingCategory(false);
         dispatch(updateProject({id: project!.id, title, category: category}))
     }
+
     return (
         <div>
             <div>
                 {
-                    project?.posterUrl !== null ?
+                    (project?.posterUrl !== undefined && project?.posterUrl !== null) ?
                     <img src={project?.posterUrl} className={classes.poster}/>
                         :
                         <></>
