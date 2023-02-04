@@ -4,4 +4,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: "Work Sans", 'sans-serif';
+    font-size: 14px;
+}
+
+.info {
+    margin: 15px;
+}
+
+.link {
+    color: #1F2937;
+}
+
+.loginBtn {
+    margin-top: 14px;
+    width: 360px;
 }

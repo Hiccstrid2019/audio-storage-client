@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../hoc/redux";
 import {addProject, fetchProjects} from "../../store/reducers/ProjectActions";
 import Input from "../ui/Input/Input";
 import Button from "../ui/Button/Button";
+import {useInput} from "../../hoc/useInput";
 
 const ProjectStorage = () => {
     const [active, setActive] = useState(false);
@@ -16,11 +17,25 @@ const ProjectStorage = () => {
         dispatch(fetchProjects());
     }, [])
 
-    const [title, setTitle] = useState('');
-    const [category, setCategory] = useState('');
+    const title = useInput('', {checkEmpty: true, minLength: 4, fieldName: 'title', maxLength: 40});
+    const category = useInput('', {checkEmpty: true, minLength: 2, fieldName: 'category', maxLength: 20});
     const handleForm = () => {
+        if (title.isValid() && category.isValid())
+        {
+            setActive(false);
+            dispatch(addProject({title: title.value, category: category.value}));
+            title.clear();
+            category.clear();
+        } else {
+            title.displayErrors();
+            category.displayErrors();
+        }
+    }
+
+    const handleCancel = () => {
         setActive(false);
-        dispatch(addProject({title, category}));
+        title.clear();
+        category.clear();
     }
 
     return (
@@ -34,10 +49,20 @@ const ProjectStorage = () => {
             {active &&
                 <Modal setActive={setActive}>
                     <div className={classes.title}>Create new project</div>
-                    <Input text="Enter project name" setValue={setTitle}/>
-                    <Input text="Enter category name" setValue={setCategory}/>
+                    <Input text="Enter project name"
+                           value={title.value}
+                           onChange={title.onChange}
+                           onBlur={title.onBlur}
+                           isDirty={title.isDirty}
+                           errors={title.valid}/>
+                    <Input text="Enter category name"
+                           value={category.value}
+                           onChange={category.onChange}
+                           onBlur={category.onBlur}
+                           isDirty={category.isDirty}
+                           errors={category.valid}/>
                     <div className={classes.btnRow}>
-                        <Button text='Cancel' style={{marginRight: "8px"}} onClick={() => setActive(false)}/>
+                        <Button text='Cancel' style={{marginRight: "8px"}} onClick={handleCancel}/>
                         <Button text='Add project' type='primary' onClick={handleForm}/>
                     </div>
                 </Modal>
