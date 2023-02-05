@@ -1,19 +1,24 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {checkAuth, login, logout, registration} from "./UserActions";
 import {AuthResponse} from "../../models/response/AuthResponse";
+import {AuthError} from "../../models/response/AuthError";
 
 interface UserState {
     isAuth: boolean,
     email: string,
     username: string,
-    isLoading: boolean
+    isLoading: boolean,
+    loginError: string;
+    registerError: string;
 }
 
 const initialState: UserState = {
     isAuth: false,
     email: '',
     username: '',
-    isLoading: true
+    isLoading: true,
+    loginError: '',
+    registerError: ''
 }
 
 export const userSlice = createSlice({
@@ -31,10 +36,11 @@ export const userSlice = createSlice({
                 localStorage.setItem('token', action.payload.authData.accessToken);
             })
             .addCase(registration.pending, (state: UserState) => {
-                state.isLoading = true;
+                // state.isLoading = true;
             })
-            .addCase(registration.rejected, (state: UserState) => {
+            .addCase(registration.rejected, (state: UserState, action: PayloadAction<any>) => {
                 state.isLoading = false;
+                state.registerError = action.payload.message;
             })
             .addCase(login.fulfilled, (state: UserState, action: PayloadAction<AuthResponse>) => {
                 state.isLoading = false;
@@ -43,10 +49,11 @@ export const userSlice = createSlice({
                 localStorage.setItem('token', action.payload.authData.accessToken);
             })
             .addCase(login.pending, (state: UserState) => {
-                state.isLoading = true;
+                // state.isLoading = true;
             })
-            .addCase(login.rejected, (state: UserState) => {
+            .addCase(login.rejected, (state: UserState, action: PayloadAction<any>) => {
                 state.isLoading = false;
+                state.loginError = action.payload.message;
             })
             .addCase(checkAuth.fulfilled, (state: UserState, action: PayloadAction<AuthResponse>) => {
                 state.isLoading = false;

@@ -1,5 +1,5 @@
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../hoc/redux";
+import {useAppDispatch, useAppSelector} from "../../hoc/redux";
 import {login} from "../../store/reducers/UserActions";
 import Button from "../ui/Button/Button";
 import Input from "../ui/Input/Input";
@@ -7,7 +7,9 @@ import classes from './Login.module.css';
 import {useInput} from "../../hoc/useInput";
 
 const Login = () => {
+
     const dispatch = useAppDispatch();
+    const {loginError} = useAppSelector(state => state.userReducer);
     const location = useLocation();
     const navigate = useNavigate();
     const email = useInput('', {checkEmail: true, checkEmpty: true, fieldName: 'email'});
@@ -17,8 +19,7 @@ const Login = () => {
 
     const handleForm = () => {
         if (email.isValid() && password.isValid()) {
-            dispatch(login({email: email.value, password: password.value}));
-            navigate(fromPage)
+            dispatch(login({email: email.value, password: password.value, callback: () => navigate(fromPage)}));
         } else {
             email.displayErrors();
             password.displayErrors();
@@ -40,7 +41,8 @@ const Login = () => {
                    onBlur={password.onBlur}
                    isDirty={password.isDirty}
                    errors={password.valid} type='password'/>
-            <Button text='Log In' onClick={() => handleForm()} className={classes.loginBtn}/>
+            <div className={classes.error}>{loginError}</div>
+            <Button text='Log In' onClick={handleForm} className={classes.loginBtn}/>
             <div className={classes.info}>
                 Don't have an account yet? <Link className={classes.link} to='/register'>Register</Link>
             </div>

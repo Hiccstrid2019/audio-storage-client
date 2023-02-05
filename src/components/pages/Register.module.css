@@ -6,10 +6,11 @@
     align-items: center;
     font-family: "Work Sans", 'sans-serif';
     font-size: 14px;
+    position: relative;
 }
 
 .registerBtn {
-    margin-top: 14px;
+    margin-top: 16px;
     width: 360px;
 }
 
@@ -19,4 +20,10 @@
 
 .link {
     color: #1F2937;
+}
+
+.error {
+    color: rgb(177,76,76);
+    position: absolute;
+    top: 410px;
 }
