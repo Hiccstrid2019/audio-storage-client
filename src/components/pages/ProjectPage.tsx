@@ -11,6 +11,8 @@ import ApplyIcon from "./apply.svg"
 import Button from "../ui/Button/Button";
 import {useAppDispatch, useAppSelector} from "../../hoc/redux";
 import {addAudio, fetchProject, updateProject} from "../../store/reducers/ProjectActions";
+import Input from "../ui/Input/Input";
+import {useInput} from "../../hoc/useInput";
 
 const icons = [
     MicIcon,
@@ -41,8 +43,8 @@ const ProjectPage = () => {
     const [isEditingTitle, setEditingTitle] = useState(false);
     const [isEditingCategory, setEditingCategory] = useState(false);
     const project = projects.find(project => project.id === id);
-    const [title, setTitle] = useState<string>(project?.title!);
-    const [category, setCategory] = useState<string>(project?.category!);
+    const title = useInput(project?.title!, {checkEmpty: true, minLength: 4, fieldName: 'title', maxLength: 40});
+    const category = useInput(project?.category!, {checkEmpty: true, minLength: 2, fieldName: 'category', maxLength: 20});
     const [widthTitle, setWidthTitle] = useState(0);
     const [widthCategory, setWidthCategory] = useState(0);
     const titleRef = useRef<HTMLDivElement>(null);
@@ -52,8 +54,8 @@ const ProjectPage = () => {
     const timeModified = new Date(project?.timeModified!);
 
     useEffect(() => {
-        setTitle(project?.title!);
-        setCategory(project?.category!);
+        // setTitle(project?.title!);
+        // setCategory(project?.category!);
     }, [project]);
     const handleRecord = () => {
         setRecording(recording => !recording);
@@ -105,20 +107,16 @@ const ProjectPage = () => {
         setWidthCategory(categoryRef.current?.offsetWidth!);
     },[category]);
 
-    const inputHandlerTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
-    {
-        setTitle(e.target.value);
-    }
-
-    const inputHandlerCategory = (e: React.ChangeEvent<HTMLInputElement>) =>
-    {
-        setCategory(e.target.value);
-    }
 
     const editInfo = () => {
-        setEditingTitle(false);
-        setEditingCategory(false);
-        dispatch(updateProject({id: project!.id, title, category: category}))
+        if (category.isValid() && title.isValid()) {
+            dispatch(updateProject({id: project!.id, title: title.value, category: category.value}))
+            setEditingTitle(false);
+            setEditingCategory(false);
+        } else {
+            title.displayErrors();
+            category.displayErrors();
+        }
     }
 
     return (
@@ -139,15 +137,23 @@ const ProjectPage = () => {
                             !isEditingCategory ? (
                                 <>
                                     <div ref={categoryRef} className={classes.italicBold}>
-                                        {category}
+                                        {category.value}
                                     </div>
                                     <img src={EditIcon} className={classes.editIcon} onClick={() => setEditingCategory(true)}/>
                                 </>
                             ) : (
                                 <>
-                                    <div ref={categoryRef} style={{position: "absolute", opacity: "0", left: "-99999px"}}>{category}</div>
-                                    <input defaultValue={category} className={classes.categoryEdit} style={{width: widthCategory}}
-                                           onChange={inputHandlerCategory} autoFocus/>
+                                    <div ref={categoryRef} style={{position: "absolute", opacity: "0", left: "-99999px"}}>{category.value}</div>
+                                    <Input defaultValue={category.value}
+                                           className={classes.categoryEdit}
+                                           style={{width: widthCategory}}
+                                           onChange={category.onChange}
+                                           onBlur={category.onBlur}
+                                           isDirty={category.isDirty}
+                                           errors={category.valid}
+                                           errorsTop={25}
+                                           errorsWidth={300}
+                                           autoFocus/>
                                     <img src={ApplyIcon} className={classes.editIcon} onClick={editInfo}/>
                                 </>
                             )
@@ -166,15 +172,23 @@ const ProjectPage = () => {
                             !isEditingTitle ? (
                                 <>
                                     <div ref={titleRef}>
-                                        {title}
+                                        {title.value}
                                     </div>
                                     <img src={EditIcon} className={classes.editIcon} onClick={() => setEditingTitle(true)}/>
                                 </>
                             ) : (
                                 <>
-                                    <div ref={titleRef} style={{position: "absolute", opacity: "0", left: "-99999px"}}>{title}</div>
-                                    <input defaultValue={title} className={classes.titleEdit} style={{width: widthTitle}}
-                                           onChange={inputHandlerTitle} autoFocus/>
+                                    <div ref={titleRef} style={{position: "absolute", opacity: "0", left: "-99999px"}}>{title.value}</div>
+                                    <Input defaultValue={title.value}
+                                           className={classes.titleEdit}
+                                           style={{width: widthTitle}}
+                                           onChange={title.onChange}
+                                           onBlur={title.onBlur}
+                                           isDirty={title.isDirty}
+                                           errors={title.valid}
+                                           errorsTop={25}
+                                           errorsWidth={300}
+                                           autoFocus/>
                                     <img src={ApplyIcon} className={classes.editIcon} onClick={editInfo}/>
                                 </>
                             )

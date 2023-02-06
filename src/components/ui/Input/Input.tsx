@@ -3,24 +3,26 @@ import React from "react";
 import {Errors, MessageErrors} from "../../../hoc/useInput";
 
 interface InputProps {
-    text: string,
+    text?: string,
     value?: string;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     onBlur?: React.FocusEventHandler<HTMLInputElement>;
     errors?: Errors
     isDirty?: boolean;
+    errorsTop?: number;
+    errorsWidth?: number;
     [props: string]: any;
 }
 
 
-const Input = ({text, value, onChange, onBlur, errors, isDirty, ...rest}: InputProps) => {
-
+const Input = ({text, value, onChange, onBlur, errors, isDirty, errorsTop, errorsWidth, ...rest}: InputProps) => {
+    console.log(isDirty)
     return (
         <div className={classes.container}>
             <input className={classes.input} placeholder={text} onChange={onChange} onBlur={onBlur} {...rest}/>
             {
                 isDirty &&
-                <p className={classes.errors}>
+                <div className={classes.errors} style={(errorsTop && errorsWidth) ? {top: `${errorsTop}px`, width: `${errorsWidth}px`} : {}}>
                     {
                         Object.keys(errors as Object).map((key, index) => {
                             if (!(errors) || errors[key as keyof Errors] === true) {
@@ -35,7 +37,7 @@ const Input = ({text, value, onChange, onBlur, errors, isDirty, ...rest}: InputP
                             }
                         })
                     }
-                </p>
+                </div>
             }
         </div>
     );
