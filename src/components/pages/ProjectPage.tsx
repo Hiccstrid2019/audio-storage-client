@@ -13,6 +13,7 @@ import {useAppDispatch, useAppSelector} from "../../hoc/redux";
 import {addAudio, fetchProject, updateProject} from "../../store/reducers/ProjectActions";
 import Input from "../ui/Input/Input";
 import {useInput} from "../../hoc/useInput";
+import Poster from "../ui/Poster/Poster";
 
 const icons = [
     MicIcon,
@@ -100,11 +101,13 @@ const ProjectPage = () => {
     }
 
     useEffect(() => {
-        setWidthTitle(titleRef.current?.offsetWidth!);
+        if (titleRef.current?.offsetWidth !== 0)
+            setWidthTitle(titleRef.current?.offsetWidth!);
     },[title]);
 
     useEffect(() => {
-        setWidthCategory(categoryRef.current?.offsetWidth!);
+        if (categoryRef.current?.offsetWidth !== 0)
+            setWidthCategory(categoryRef.current?.offsetWidth!);
     },[category]);
 
 
@@ -124,7 +127,7 @@ const ProjectPage = () => {
             <div>
                 {
                     (project?.posterUrl !== undefined && project?.posterUrl !== null) ?
-                    <img src={project?.posterUrl} className={classes.poster}/>
+                    <Poster posterUrl={project?.posterUrl} projectId={id!} posterPosition={Number(project?.posterPosition!)}/>
                         :
                         <></>
                 }

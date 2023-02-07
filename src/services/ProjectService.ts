@@ -32,4 +32,8 @@ export default class ProjectService {
             headers: {'Content-Type': `multipart/form-data`}
         })
     }
+
+    static async updatePosterPosition(id: string, posterPosition: number): Promise<AxiosResponse<IProject>> {
+        return api.put<IProject>(this.serviceUrl + `/poster/${id}`, {posterPosition});
+    }
 }

@@ -2,7 +2,7 @@ import {IProject} from "../../models/IProject";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
     addAudio, addPoster,
-    addProject,
+    addProject, changePosterPosition,
     CreatedAudio,
     deleteAudio,
     deleteProject, fetchProject,
@@ -79,6 +79,11 @@ export const projectSlice = createSlice({
         .addCase(addPoster.fulfilled, (state: ProjectState, action: PayloadAction<PosterResponse>) => {
             const project = state.projects.find(project => project.id === action.payload.projectId);
             project!.posterUrl = action.payload.posterUrl;
+            project!.posterPosition = action.payload.posterPosition;
+        })
+        .addCase(changePosterPosition.fulfilled, (state: ProjectState, action: PayloadAction<IProject>) => {
+            const project = state.projects.find(p => p.id === action.payload.id);
+            project!.posterPosition = action.payload.posterPosition;
         })
 
         .addCase(deleteAudio.fulfilled, (state: ProjectState, action: PayloadAction<DeletedAudio>) => {

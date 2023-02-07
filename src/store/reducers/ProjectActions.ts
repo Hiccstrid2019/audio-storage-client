@@ -103,6 +103,24 @@ export const addPoster = createAsyncThunk(
     }
 )
 
+interface ChangeRepositionModel {
+    projectId: string;
+    posterPosition: number;
+}
+
+export const changePosterPosition = createAsyncThunk(
+    'project/changeReposition',
+    async (model: ChangeRepositionModel, thunkAPI) => {
+        try {
+            const {projectId, posterPosition} = model;
+            const response = await ProjectService.updatePosterPosition(projectId, posterPosition);
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e);
+        }
+    }
+)
+
 interface CreateAudioModel {
     blob: Blob;
     lessonId: string;
