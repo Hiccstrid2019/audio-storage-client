@@ -1,0 +1,57 @@
+.content {
+    position: relative;
+}
+
+.poster {
+    display: block;
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+}
+
+.dragActive {
+    cursor: move;
+}
+
+.blockBtn {
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+}
+
+.btn {
+    background-color: #ffffff;
+    border: 1px solid #1F2937;
+    font-family: "Work Sans", 'sans-serif';
+    height: 28px;
+}
+
+.btn:hover {
+    background-color: #dcdcdc;
+}
+
+.btnLeft {
+    border-radius: 6px 0 0 6px;
+}
+
+.btnRight {
+    border-radius: 0 6px 6px 0;
+}
+
+.hint {
+    cursor: move;
+    user-select: none;
+    font-family: "Work Sans", 'sans-serif';
+    height: 20px;
+    width: 195px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 3px 10px;
+    border-radius: 6px;
+}
