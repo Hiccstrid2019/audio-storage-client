@@ -99,3 +99,24 @@
     font-size: 16px;
 }
 
+.addPosterBtn {
+    cursor: default;
+    position: absolute;
+    top: 10%;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-family: "Work Sans", 'sans-serif';
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    padding: 3px 8px;
+}
+
+.addPosterBtn:hover {
+    background-color: #dcdcdc;
+}
+
+.iconPoster {
+    margin-right: 5px;
+}

@@ -8,12 +8,14 @@ import MicIconFrame2 from "./mic2.svg"
 import MicIconFrame3 from "./mic3.svg"
 import EditIcon from "./edit.svg"
 import ApplyIcon from "./apply.svg"
+import PosterIcon from "./image.svg"
 import Button from "../ui/Button/Button";
 import {useAppDispatch, useAppSelector} from "../../hoc/redux";
-import {addAudio, fetchProject, updateProject} from "../../store/reducers/ProjectActions";
+import {addAudio, addPoster, fetchProject, updateProject} from "../../store/reducers/ProjectActions";
 import Input from "../ui/Input/Input";
 import {useInput} from "../../hoc/useInput";
 import Poster from "../ui/Poster/Poster";
+import Modal from "../ui/Modal/Modal";
 
 const icons = [
     MicIcon,
@@ -53,6 +55,7 @@ const ProjectPage = () => {
     const options: Intl.DateTimeFormatOptions = {day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit'}
     const timeCreated = new Date(project?.timeCreated!);
     const timeModified = new Date(project?.timeModified!);
+    const [active, setActive] = useState(false);
 
     useEffect(() => {
         // setTitle(project?.title!);
@@ -120,6 +123,13 @@ const ProjectPage = () => {
             title.displayErrors();
             category.displayErrors();
         }
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        if (!e.target.files) return;
+
+        dispatch(addPoster({projectId: project?.id!, fileImg: e.target.files[0]}));
+        setActive(false);
     }
 
     return (
@@ -199,6 +209,21 @@ const ProjectPage = () => {
                     </div>
                     {
                         project?.audios?.map(audio => <Audio key={audio.id} audioUrl={audio.url} audioId={audio.id}/>)
+                    }
+                    {
+                        !(project?.posterUrl !== undefined && project?.posterUrl !== null) ?
+                            <div className={classes.addPosterBtn} onClick={() => setActive(true)}>
+                                <img src={PosterIcon} className={classes.iconPoster}/>
+                                <div>Add poster</div>
+                            </div>
+                            :
+                            <></>
+                    }
+                    {active &&
+                        <Modal setActive={setActive}>
+                            <input type='file' accept="image/png, image/jpeg" onChange={handleChange}/>
+                            <div className={classes.hintModal}>Images wider than 1500 pixels will be displayed better</div>
+                        </Modal>
                     }
                     <div className={classes.new}>
                         {!start ? <Button text="Add new record" onClick={() => setStart(true)}/> :
