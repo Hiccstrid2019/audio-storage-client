@@ -16,7 +16,6 @@ interface InputProps {
 
 
 const Input = ({text, value, onChange, onBlur, errors, isDirty, errorsTop, errorsWidth, ...rest}: InputProps) => {
-    console.log(isDirty)
     return (
         <div className={classes.container}>
             <input className={classes.input} placeholder={text} onChange={onChange} onBlur={onBlur} {...rest}/>

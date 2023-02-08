@@ -58,7 +58,6 @@ export const checkAuth = createAsyncThunk(
     async (_, thunkAPI) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error();
-        console.log(thunkAPI.signal)
         try {
             const response = await axios.get(`${process.env.REACT_APP_SERVER_API}/api/auth/refresh-token`,{withCredentials: true});
             return response.data;
