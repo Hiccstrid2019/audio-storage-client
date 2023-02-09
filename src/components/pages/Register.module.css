@@ -10,7 +10,7 @@
 }
 
 .registerBtn {
-    margin-top: 16px;
+    margin-top: 10px;
     width: 360px;
 }
 
@@ -24,6 +24,5 @@
 
 .error {
     color: rgb(177,76,76);
-    position: absolute;
-    top: 410px;
+    height: 16px;
 }

@@ -133,7 +133,7 @@ const ProjectPage = () => {
     }
 
     return (
-        <div>
+        <div className={classes.page}>
             <div>
                 {
                     (project?.posterUrl !== undefined && project?.posterUrl !== null) ?
@@ -180,6 +180,15 @@ const ProjectPage = () => {
                     </div>
                 </div>
                 <div className={classes.main}>
+                    {
+                        !(project?.posterUrl !== undefined && project?.posterUrl !== null) ?
+                            <div className={classes.addPosterBtn} onClick={() => setActive(true)}>
+                                <img src={PosterIcon} className={classes.iconPoster}/>
+                                <div>Add poster</div>
+                            </div>
+                            :
+                            <></>
+                    }
                     <div className={classes.title}>
                         {
                             !isEditingTitle ? (
@@ -209,15 +218,6 @@ const ProjectPage = () => {
                     </div>
                     {
                         project?.audios?.map(audio => <Audio key={audio.id} audioUrl={audio.url} audioId={audio.id}/>)
-                    }
-                    {
-                        !(project?.posterUrl !== undefined && project?.posterUrl !== null) ?
-                            <div className={classes.addPosterBtn} onClick={() => setActive(true)}>
-                                <img src={PosterIcon} className={classes.iconPoster}/>
-                                <div>Add poster</div>
-                            </div>
-                            :
-                            <></>
                     }
                     {active &&
                         <Modal setActive={setActive}>
