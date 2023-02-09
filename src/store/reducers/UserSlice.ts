@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {checkAuth, login, logout, registration} from "./UserActions";
 import {AuthResponse} from "../../models/response/AuthResponse";
-import {AuthError} from "../../models/response/AuthError";
 
 interface UserState {
     isAuth: boolean,

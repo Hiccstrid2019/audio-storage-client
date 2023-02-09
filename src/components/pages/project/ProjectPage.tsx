@@ -1,21 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useLocation, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import classes from "./ProjectPage.module.css";
-import Audio from "../ui/Audio/Audio";
-import MicIcon from "./mic.svg"
-import MicIconFrame1 from "./mic1.svg"
-import MicIconFrame2 from "./mic2.svg"
-import MicIconFrame3 from "./mic3.svg"
-import EditIcon from "./edit.svg"
-import ApplyIcon from "./apply.svg"
-import PosterIcon from "./image.svg"
-import Button from "../ui/Button/Button";
-import {useAppDispatch, useAppSelector} from "../../hoc/redux";
-import {addAudio, addPoster, fetchProject, updateProject} from "../../store/reducers/ProjectActions";
-import Input from "../ui/Input/Input";
-import {useInput} from "../../hoc/useInput";
-import Poster from "../ui/Poster/Poster";
-import Modal from "../ui/Modal/Modal";
+import Audio from "../../ui/Audio/Audio";
+import MicIcon from "./icons/mic.svg"
+import MicIconFrame1 from "./icons/mic1.svg"
+import MicIconFrame2 from "./icons/mic2.svg"
+import MicIconFrame3 from "./icons/mic3.svg"
+import EditIcon from "./icons/edit.svg"
+import ApplyIcon from "./icons/apply.svg"
+import PosterIcon from "./icons/image.svg"
+import Button from "../../ui/Button/Button";
+import {useAppDispatch, useAppSelector} from "../../../hoc/redux";
+import {addAudio, addPoster, fetchProject, updateProject} from "../../../store/reducers/ProjectActions";
+import Input from "../../ui/Input/Input";
+import {useInput} from "../../../hoc/useInput";
+import Poster from "../../ui/Poster/Poster";
+import Modal from "../../ui/Modal/Modal";
 
 const icons = [
     MicIcon,

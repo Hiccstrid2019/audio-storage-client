@@ -1,14 +1,14 @@
 import './App.css';
 import {useEffect} from "react";
 import {Route, Routes} from "react-router-dom";
-import Login from "./components/pages/Login";
-import Register from "./components/pages/Register";
+import Login from "./components/pages/login/Login";
+import Register from "./components/pages/register/Register";
 import RequireAuth from "./hoc/RequireAuth";
-import Profile from "./components/pages/Profile";
+import Profile from "./components/pages/profile/Profile";
 import BaseLayout from "./components/pages/BaseLayout";
-import Homepage from "./components/pages/Homepage";
-import ProjectStorage from "./components/pages/ProjectStorage";
-import ProjectPage from "./components/pages/ProjectPage";
+import Homepage from "./components/pages/home/Homepage";
+import ProjectStorage from "./components/pages/storage/ProjectStorage";
+import ProjectPage from "./components/pages/project/ProjectPage";
 import {useAppDispatch, useAppSelector} from "./hoc/redux";
 import {checkAuth} from "./store/reducers/UserActions";
 

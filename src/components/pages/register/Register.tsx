@@ -1,11 +1,11 @@
 import React from 'react';
-import {registration} from "../../store/reducers/UserActions";
+import {registration} from "../../../store/reducers/UserActions";
 import classes from "./Register.module.css";
-import Input from "../ui/Input/Input";
-import Button from "../ui/Button/Button";
-import {useAppDispatch, useAppSelector} from "../../hoc/redux";
+import Input from "../../ui/Input/Input";
+import Button from "../../ui/Button/Button";
+import {useAppDispatch, useAppSelector} from "../../../hoc/redux";
 import {Link, useNavigate} from "react-router-dom";
-import {useInput} from "../../hoc/useInput";
+import {useInput} from "../../../hoc/useInput";
 
 const Register = () => {
     const {registerError} = useAppSelector(state => state.userReducer);

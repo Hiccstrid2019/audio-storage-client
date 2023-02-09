@@ -1,10 +1,10 @@
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../hoc/redux";
-import {login} from "../../store/reducers/UserActions";
-import Button from "../ui/Button/Button";
-import Input from "../ui/Input/Input";
+import {useAppDispatch, useAppSelector} from "../../../hoc/redux";
+import {login} from "../../../store/reducers/UserActions";
+import Button from "../../ui/Button/Button";
+import Input from "../../ui/Input/Input";
 import classes from './Login.module.css';
-import {useInput} from "../../hoc/useInput";
+import {useInput} from "../../../hoc/useInput";
 
 const Login = () => {
 

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import classes from "./Card.module.css";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useAppDispatch} from "../../../hoc/redux";
 import {addPoster, deleteProject} from "../../../store/reducers/ProjectActions";
 import TrashIcon from './trash.svg'

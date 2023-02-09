@@ -1,11 +1,14 @@
 import {IProject} from "../../models/IProject";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
-    addAudio, addPoster,
-    addProject, changePosterPosition,
+    addAudio,
+    addPoster,
+    addProject,
+    changePosterPosition,
     CreatedAudio,
     deleteAudio,
-    deleteProject, fetchProject,
+    deleteProject,
+    fetchProject,
     fetchProjects,
     updateProject
 } from "./ProjectActions";

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import Card from "../ui/Card/Card";
+import Card from "../../ui/Card/Card";
 import classes from "./ProjectStorage.module.css";
-import Modal from "../ui/Modal/Modal";
-import {useAppDispatch, useAppSelector} from "../../hoc/redux";
-import {addProject, fetchProjects} from "../../store/reducers/ProjectActions";
-import Input from "../ui/Input/Input";
-import Button from "../ui/Button/Button";
-import {useInput} from "../../hoc/useInput";
+import Modal from "../../ui/Modal/Modal";
+import {useAppDispatch, useAppSelector} from "../../../hoc/redux";
+import {addProject, fetchProjects} from "../../../store/reducers/ProjectActions";
+import Input from "../../ui/Input/Input";
+import Button from "../../ui/Button/Button";
+import {useInput} from "../../../hoc/useInput";
 
 const ProjectStorage = () => {
     const [active, setActive] = useState(false);

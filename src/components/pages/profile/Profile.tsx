@@ -1,8 +1,8 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../hoc/redux";
-import {logout} from "../../store/reducers/UserActions";
-import Button from "../ui/Button/Button";
+import {useAppDispatch} from "../../../hoc/redux";
+import {logout} from "../../../store/reducers/UserActions";
+import Button from "../../ui/Button/Button";
 
 const Profile = () => {
     const navigate = useNavigate();
