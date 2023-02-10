@@ -28,6 +28,7 @@ const ProjectPage = () => {
     const {projects} = useAppSelector(state => state.projectReducer);
     const dispatch = useAppDispatch();
 
+
     useEffect(() => {
         if (!projects.length) {
             dispatch(fetchProject(id!));
@@ -38,6 +39,7 @@ const ProjectPage = () => {
     }, []);
     const {id} = useParams<string>();
     const mediaRecorderRef = useRef<MediaRecorder>();
+    const refAudioContext = useRef<AudioContext>(new (window.AudioContext || window.webkitAudioContext)());
     const [chunks, setChunks] = useState<BlobPart[]>([]);
     const [start, setStart] = useState(false);
     const [recording, setRecording] = useState(false);
@@ -58,8 +60,8 @@ const ProjectPage = () => {
     const [active, setActive] = useState(false);
 
     useEffect(() => {
-        // setTitle(project?.title!);
-        // setCategory(project?.category!);
+        title.setValue(project?.title!);
+        category.setValue(project?.category!);
     }, [project]);
     const handleRecord = () => {
         setRecording(recording => !recording);
@@ -217,7 +219,7 @@ const ProjectPage = () => {
                         }
                     </div>
                     {
-                        project?.audios?.map(audio => <Audio key={audio.id} audioUrl={audio.url} audioId={audio.id}/>)
+                        project?.audios?.map(audio => <Audio key={audio.id} audioUrl={audio.url} audioId={audio.id} audioContext={refAudioContext.current}/>)
                     }
                     {active &&
                         <Modal setActive={setActive}>

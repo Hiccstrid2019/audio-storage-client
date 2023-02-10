@@ -10,14 +10,15 @@ import {deleteAudio} from "../../../store/reducers/ProjectActions";
 interface AudioProps {
     audioUrl: string;
     audioId: string;
+    audioContext: AudioContext;
 }
 
-const Audio = ({audioUrl, audioId}: AudioProps) => {
+const Audio = ({audioUrl, audioId, audioContext}: AudioProps) => {
     useEffect(() => {
         setLoading(true);
         fetch(audioUrl)
             .then(response => response.arrayBuffer())
-            .then(arrayBuffer => refAudioContext.current.decodeAudioData(arrayBuffer))
+            .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
             .then(audioBuffer => {
                 refAudioBuffer.current = audioBuffer;
                 setLoading(false);
@@ -27,7 +28,7 @@ const Audio = ({audioUrl, audioId}: AudioProps) => {
             });
     },[]);
 
-    const refAudioContext = useRef<AudioContext>(new (window.AudioContext || window.webkitAudioContext)());
+    // const refAudioContext = useRef<AudioContext>(new (window.AudioContext || window.webkitAudioContext)());
     const refAudioBuffer = useRef<AudioBuffer>();
     const refSource = useRef<AudioBufferSourceNode>();
     const [loading, setLoading] = useState(true);
@@ -41,7 +42,6 @@ const Audio = ({audioUrl, audioId}: AudioProps) => {
     const dispatch = useAppDispatch();
 
     const playTrack = () => {
-        const audioContext = refAudioContext.current;
         if (!play) {
             const newSource = audioContext.createBufferSource();
             newSource.connect(audioContext.destination);

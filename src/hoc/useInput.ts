@@ -46,11 +46,11 @@ const useValidation = (value: string, validations: Validations) => {
         for (let validation in validations) {
             switch (validation) {
                 case 'minLength':
-                    value.length < validations[validation]! ? setMinLengthError(true) : setMinLengthError(false);
+                    value?.length < validations[validation]! ? setMinLengthError(true) : setMinLengthError(false);
                     setMinLength(validations[validation]!);
                     break;
                 case 'maxLength':
-                    value.length > validations[validation]! ? setMaxLengthError(true) : setMaxLengthError(false);
+                    value?.length > validations[validation]! ? setMaxLengthError(true) : setMaxLengthError(false);
                     setMaxLength(validations[validation]!);
                     break;
                 case 'checkEmpty':
@@ -98,6 +98,7 @@ export const useInput = (initialValue: string, validations: Validations) => {
 
     return {
         value,
+        setValue,
         clear: () => {setValue(''); setDirty(false)},
         onChange,
         onBlur,
