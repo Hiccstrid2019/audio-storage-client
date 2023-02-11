@@ -14,13 +14,9 @@ import {checkAuth} from "./store/reducers/UserActions";
 
 function App() {
     const dispatch = useAppDispatch();
-    const {isLoading} = useAppSelector(state => state.userReducer);
     useEffect(() => {
         dispatch(checkAuth());
     },[]);
-    if (isLoading) {
-        return <div>Loading....</div>
-    }
   return (
       <>
           <Routes>

@@ -8,7 +8,11 @@ interface RequireAuthProps {
 
 const RequireAuth = ({children}: RequireAuthProps) => {
     const location = useLocation();
-    const {isAuth} = useAppSelector(state => state.userReducer);
+    const {isAuth,  isLoading} = useAppSelector(state => state.userReducer);
+
+    if (isLoading) {
+        return <div>Loading....</div>
+    }
 
     return (
         <>
