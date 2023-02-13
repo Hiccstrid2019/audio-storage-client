@@ -23,5 +23,22 @@
 
 .profileLink {
     display: flex;
+    align-items: center;
     margin-left: auto;
+}
+
+.icon {
+    width: 20px;
+}
+
+@media (max-width: 767px) {
+    .header {
+        margin-top: 0;
+    }
+    .link {
+        font-size: 25px;
+    }
+    .profileLink {
+        margin-left: 0;
+    }
 }
