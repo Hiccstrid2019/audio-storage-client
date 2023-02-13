@@ -1,6 +1,6 @@
 html, body, .App {
   height: 100%;
-  margin: 0px 80px;
+  margin: 0 80px;
 }
 
 .App {
@@ -10,4 +10,10 @@ html, body, .App {
 
 #root, .container {
   height: 100%;
+}
+
+@media (max-width: 767px) {
+  html, body, .App {
+    margin: 0;
+  }
 }

@@ -40,3 +40,10 @@
     justify-content: flex-end;
     margin-top: 16px;
 }
+
+@media (max-width: 767px) {
+    .container {
+        justify-content: center;
+        padding-top: 20px;
+    }
+}
