@@ -35,3 +35,13 @@
 .preloader {
     width: 500px;
 }
+
+
+@media (max-width: 767px) {
+    .audio {
+        width: auto;
+    }
+    .preloader {
+        width: auto;
+    }
+}

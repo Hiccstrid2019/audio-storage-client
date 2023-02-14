@@ -3,7 +3,6 @@
 }
 
 .input {
-    /*position: relative;*/
     box-sizing: border-box;
     border-radius: 6px;
     border: 1px solid #D1D5DB;
@@ -34,4 +33,10 @@
 
 .error {
     margin: 0;
+}
+
+@media (max-width: 767px) {
+    .input {
+        width: auto;
+    }
 }

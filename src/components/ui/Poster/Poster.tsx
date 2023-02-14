@@ -3,6 +3,7 @@ import classes from "./Poster.module.css";
 import Modal from "../Modal/Modal";
 import {addPoster, changePosterPosition} from "../../../store/reducers/ProjectActions";
 import {useAppDispatch} from "../../../hoc/redux";
+import {useMatchMedia} from "../../../hoc/useMatchMedia";
 
 interface PosterProps {
     posterUrl: string;
@@ -17,6 +18,7 @@ const Poster = ({posterUrl, projectId, posterPosition}: PosterProps) => {
     const [position, setPosition] = useState(posterPosition);
     const [isMoving, setMoving] = useState(false);
     const [yOffset, setYOffset] = useState(0);
+    const {isMobile} = useMatchMedia();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
         if (!e.target.files) return;
@@ -72,20 +74,24 @@ const Poster = ({posterUrl, projectId, posterPosition}: PosterProps) => {
                      draggable={false}
                      className={!repositionActive ? classes.poster : `${classes.poster} ${classes.dragActive}`}
                      style={{objectPosition: `center ${position}%`}}/>
-                <div className={classes.blockBtn}>
-                    {
-                        !repositionActive ?
-                            <>
-                                <button className={`${classes.btn} ${classes.btnLeft}`} onClick={() => setActive(true)}>Change poster</button>
-                                <button className={`${classes.btn} ${classes.btnRight}`} onClick={() => setRepositionActive(true)}>Reposition</button>
-                            </>
-                            :
-                            <>
-                                <button className={`${classes.btn} ${classes.btnLeft}`} onClick={cancelReposition}>Cancel reposition</button>
-                                <button className={`${classes.btn} ${classes.btnRight}`} onClick={savePosition}>Save position</button>
-                            </>
-                    }
-                </div>
+                {
+                    isMobile ? <></>
+                        :
+                        <div className={classes.blockBtn}>
+                            {
+                                !repositionActive ?
+                                    <>
+                                        <button className={`${classes.btn} ${classes.btnLeft}`} onClick={() => setActive(true)}>Change poster</button>
+                                        <button className={`${classes.btn} ${classes.btnRight}`} onClick={() => setRepositionActive(true)}>Reposition</button>
+                                    </>
+                                    :
+                                    <>
+                                        <button className={`${classes.btn} ${classes.btnLeft}`} onClick={cancelReposition}>Cancel reposition</button>
+                                        <button className={`${classes.btn} ${classes.btnRight}`} onClick={savePosition}>Save position</button>
+                                    </>
+                            }
+                        </div>
+                }
                 {
                     repositionActive && <div className={classes.hint}>Drag image to reposition</div>
                 }

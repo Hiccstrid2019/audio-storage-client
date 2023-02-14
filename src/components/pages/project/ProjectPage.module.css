@@ -20,7 +20,6 @@
 }
 
 .main {
-    /*width: 80%;*/
     display: flex;
     min-width: 640px;
     flex-direction: column;
@@ -44,7 +43,7 @@
 }
 
 .editIcon {
-    margin: 10px;
+    margin: 0 10px;
 }
 
 .new {
@@ -60,10 +59,9 @@
 
 
 .iconHolder {
-    /*width: 28px;*/
     height: 43px;
     width: 43px;
-    margin-left: 20px;
+    margin-bottom: 20px;
     padding: 0;
     display: flex;
     justify-content: center;
@@ -110,4 +108,28 @@
 
 .iconPoster {
     margin-right: 5px;
+}
+
+.mic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 767px) {
+    .container {
+        flex-direction: column;
+        margin-top: 0;
+        align-items: center;
+    }
+
+    .info {
+        width: 300px;
+    }
+
+    .main {
+        min-width: auto;
+        justify-content: center;
+    }
+
 }

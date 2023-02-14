@@ -1,9 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import classes from "./AudioWave.module.css";
+import {useMatchMedia} from "../../../hoc/useMatchMedia";
 
-const filterData = (audioBuffer: AudioBuffer) => {
+const filterData = (audioBuffer: AudioBuffer, samples: number) => {
     const rawData = audioBuffer.getChannelData(0);
-    const samples = 150;
     const blockSize = Math.floor(rawData.length / samples);
     const filteredData = [];
     for (let i = 0; i < samples; i++) {
@@ -44,9 +44,12 @@ interface AudioWaveProps {
 
 const AudioWave = ({audioBuffer} : AudioWaveProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const {isMobile} = useMatchMedia();
 
     useEffect(() => {
-        draw(normalizeData(filterData(audioBuffer)));
+        let samples = 150;
+        if (isMobile) samples = 50;
+        draw(normalizeData(filterData(audioBuffer, samples)));
     }, []);
 
     const draw = (normalizedData: number[]) => {

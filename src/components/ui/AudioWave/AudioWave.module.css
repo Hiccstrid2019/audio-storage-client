@@ -14,3 +14,13 @@ body {
     height: 40px;
     margin: 0;
 }
+
+@media (max-width: 767px) {
+    .container {
+        width: auto;
+    }
+
+    .canvas {
+        width: 120px;
+    }
+}

@@ -229,14 +229,14 @@ const ProjectPage = () => {
                     }
                     <div className={classes.new}>
                         {!start ? <Button text="Add new record" onClick={() => setStart(true)}/> :
-                            <>
-                                Click mic to {!recording ? 'start' : 'stop'} recording
+                            <div className={classes.mic}>
                                 <div className={classes.iconHolder}>
                                     <img src={icons[index % icons.length]}
                                          className={classes.icon}
                                          onClick={handleRecord}/>
                                 </div>
-                            </>}
+                                Click mic to {!recording ? 'start' : 'stop'} recording
+                            </div>}
                     </div>
                 </div>
             </div>
