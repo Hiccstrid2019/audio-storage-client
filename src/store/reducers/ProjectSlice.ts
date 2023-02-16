@@ -4,7 +4,7 @@ import {
     addAudio,
     addPoster,
     addProject,
-    changePosterPosition,
+    changePosterPosition, changeProjectShareMode,
     CreatedAudio,
     deleteAudio,
     deleteProject,
@@ -87,6 +87,11 @@ export const projectSlice = createSlice({
         .addCase(changePosterPosition.fulfilled, (state: ProjectState, action: PayloadAction<IProject>) => {
             const project = state.projects.find(p => p.id === action.payload.id);
             project!.posterPosition = action.payload.posterPosition;
+        })
+
+        .addCase(changeProjectShareMode.fulfilled, (state: ProjectState, action: PayloadAction<IProject>) => {
+            const project = state.projects.find(p => p.id === action.payload.id);
+            project!.isShared = action.payload.isShared;
         })
 
         .addCase(deleteAudio.fulfilled, (state: ProjectState, action: PayloadAction<DeletedAudio>) => {

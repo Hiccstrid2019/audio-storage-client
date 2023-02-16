@@ -121,6 +121,24 @@ export const changePosterPosition = createAsyncThunk(
     }
 )
 
+interface ChangeProjectShareModeModel {
+    projectId: string;
+    isShared: boolean;
+}
+
+export const changeProjectShareMode = createAsyncThunk(
+    'project/changeProjectShareMode',
+    async (model: ChangeProjectShareModeModel, thunkAPI) => {
+        try {
+            const {projectId, isShared} = model;
+            const response = await ProjectService.updateProjectShareMode(projectId, isShared);
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e);
+        }
+    }
+)
+
 interface CreateAudioModel {
     blob: Blob;
     lessonId: string;

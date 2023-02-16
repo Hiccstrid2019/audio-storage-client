@@ -9,4 +9,9 @@ export interface IProject {
     audios?: IAudio[];
     posterUrl?: string;
     posterPosition?: string;
+    isShared: boolean;
+}
+
+export interface ISharedProject extends IProject {
+    author: string;
 }

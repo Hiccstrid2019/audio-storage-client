@@ -1,5 +1,5 @@
 import api from "../http";
-import {IProject} from "../models/IProject";
+import {IProject, ISharedProject} from "../models/IProject";
 import {AxiosResponse} from "axios";
 import {PosterResponse} from "../models/response/PosterResponse";
 
@@ -24,6 +24,10 @@ export default class ProjectService {
         return api.put<IProject>(this.serviceUrl + `/${id}`, {projectId: id, title, category});
     }
 
+    static async updateProjectShareMode(id: string, isShared: boolean): Promise<AxiosResponse<IProject>> {
+        return api.put<IProject>(this.serviceUrl + `/shared/${id}`, {projectId: id, isShared});
+    }
+
     static async uploadPoster(id: string, file: File): Promise<AxiosResponse<PosterResponse>> {
         const data = new FormData();
         data.append("projectId", id);
@@ -35,5 +39,9 @@ export default class ProjectService {
 
     static async updatePosterPosition(id: string, posterPosition: number): Promise<AxiosResponse<IProject>> {
         return api.put<IProject>(this.serviceUrl + `/poster/${id}`, {posterPosition});
+    }
+
+    static async fetchSharedProject(id: string): Promise<AxiosResponse<ISharedProject>> {
+        return api.get<ISharedProject>(this.serviceUrl + `/shared/${id}`);
     }
 }
