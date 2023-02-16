@@ -11,9 +11,10 @@ interface AudioProps {
     audioUrl: string;
     audioId: string;
     audioContext: AudioContext;
+    editable?: boolean;
 }
 
-const Audio = ({audioUrl, audioId, audioContext}: AudioProps) => {
+const Audio = ({audioUrl, audioId, audioContext, editable = true}: AudioProps) => {
     useEffect(() => {
         setLoading(true);
         fetch(audioUrl)
@@ -28,7 +29,6 @@ const Audio = ({audioUrl, audioId, audioContext}: AudioProps) => {
             });
     },[]);
 
-    // const refAudioContext = useRef<AudioContext>(new (window.AudioContext || window.webkitAudioContext)());
     const refAudioBuffer = useRef<AudioBuffer>();
     const refSource = useRef<AudioBufferSourceNode>();
     const [loading, setLoading] = useState(true);
@@ -87,7 +87,7 @@ const Audio = ({audioUrl, audioId, audioContext}: AudioProps) => {
                         <span className={classes.duration}>{minutes}:{(Math.round(seconds) >= 10) ? Math.round(seconds) : '0' + Math.round(seconds)}</span>
                     </>
             )}
-            <img src={TrashIcon} className={classes.trashIcon} onClick={handleDeleteAudio}/>
+            {editable ? <img src={TrashIcon} className={classes.trashIcon} onClick={handleDeleteAudio}/> : <></>}
         </div>
     );
 };

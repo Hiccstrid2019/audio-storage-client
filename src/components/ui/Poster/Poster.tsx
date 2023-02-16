@@ -9,9 +9,10 @@ interface PosterProps {
     posterUrl: string;
     projectId: string;
     posterPosition: number;
+    editable: boolean;
 }
 
-const Poster = ({posterUrl, projectId, posterPosition}: PosterProps) => {
+const Poster = ({posterUrl, projectId, posterPosition, editable}: PosterProps) => {
     const [active, setActive] = useState(false);
     const dispatch = useAppDispatch();
     const [repositionActive, setRepositionActive] = useState(false);
@@ -75,7 +76,7 @@ const Poster = ({posterUrl, projectId, posterPosition}: PosterProps) => {
                      className={!repositionActive ? classes.poster : `${classes.poster} ${classes.dragActive}`}
                      style={{objectPosition: `center ${position}%`}}/>
                 {
-                    isMobile ? <></>
+                    (isMobile || !editable) ? <></>
                         :
                         <div className={classes.blockBtn}>
                             {
