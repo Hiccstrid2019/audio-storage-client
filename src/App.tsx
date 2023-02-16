@@ -11,6 +11,7 @@ import ProjectStorage from "./components/pages/storage/ProjectStorage";
 import ProjectPage from "./components/pages/project/ProjectPage";
 import {useAppDispatch, useAppSelector} from "./hoc/redux";
 import {checkAuth} from "./store/reducers/UserActions";
+import SharedProject from "./components/pages/share/SharedProject";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -39,6 +40,7 @@ function App() {
                           <ProjectPage/>
                       </RequireAuth>
                   }/>
+                  <Route path='/shared/:id' element={<SharedProject/>}/>
               </Route>
 
           </Routes>
