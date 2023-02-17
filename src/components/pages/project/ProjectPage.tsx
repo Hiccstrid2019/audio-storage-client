@@ -11,11 +11,18 @@ import ApplyIcon from "./icons/apply.svg"
 import PosterIcon from "./icons/image.svg"
 import Button from "../../ui/Button/Button";
 import {useAppDispatch, useAppSelector} from "../../../hoc/redux";
-import {addAudio, addPoster, fetchProject, updateProject} from "../../../store/reducers/ProjectActions";
+import {
+    addAudio,
+    addPoster,
+    changeProjectShareMode,
+    fetchProject,
+    updateProject
+} from "../../../store/reducers/ProjectActions";
 import Input from "../../ui/Input/Input";
 import {useInput} from "../../../hoc/useInput";
 import Poster from "../../ui/Poster/Poster";
 import Modal from "../../ui/Modal/Modal";
+import Switch from "../../ui/Switch/Switch";
 
 const icons = [
     MicIcon,
@@ -66,10 +73,9 @@ const ProjectPage = () => {
     const handleRecord = () => {
         setRecording(recording => !recording);
         if (timerRef.current == undefined) {
-            const timerId = setInterval(() => {
+            timerRef.current = setInterval(() => {
                 setIndex(index => index + 1);
             }, 500);
-            timerRef.current = timerId;
         } else {
             clearInterval(timerRef.current);
             setIndex(0);
@@ -134,12 +140,30 @@ const ProjectPage = () => {
         setActive(false);
     }
 
+    const [isShared, setShared] = useState<boolean>(project?.isShared!);
+
+    const sharedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setShared(!isShared);
+        dispatch(changeProjectShareMode({projectId: id!, isShared: e.target.checked}));
+    }
+
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(window.location.href.replace('project', 'shared'))
+            .then(() => {
+                setTextBtnCopy('Copied!');
+                setTimeout(() => {
+                    setTextBtnCopy('Copy link');
+                }, 1000);
+            });
+    }
+
+    const [textBtnCopy, setTextBtnCopy] = useState('Copy link')
     return (
         <div className={classes.page}>
             <div>
                 {
                     (project?.posterUrl !== undefined && project?.posterUrl !== null) ?
-                    <Poster posterUrl={project?.posterUrl} projectId={id!} posterPosition={Number(project?.posterPosition!)}/>
+                    <Poster posterUrl={project?.posterUrl} projectId={id!} editable={true} posterPosition={Number(project?.posterPosition!)}/>
                         :
                         <></>
                 }
@@ -180,6 +204,24 @@ const ProjectPage = () => {
                     <div className={classes.block}>
                         Last modified: {timeModified.toLocaleString("ru-RU", options)}
                     </div>
+                    <div className={classes.block}>
+                        <div className={classes.share}>
+                            Share to web
+                        </div>
+                        <Switch isToggled={isShared} onToggle={sharedChange}/>
+                    </div>
+                    <div className={classes.block}>
+                        <span className={classes.tip}>{isShared ? 'anyone with the link can view' : 'the project is not shared'}</span>
+                    </div>
+                    {
+                        isShared ?
+                            <div className={classes.block}>
+                                <input className={classes.shareLink} defaultValue={window.location.href.replace('project', 'shared')} disabled={true}/>
+                                <Button text={textBtnCopy} className={classes.copyBtn} onClick={handleCopyLink}/>
+                            </div>
+                            :
+                            <></>
+                    }
                 </div>
                 <div className={classes.main}>
                     {
