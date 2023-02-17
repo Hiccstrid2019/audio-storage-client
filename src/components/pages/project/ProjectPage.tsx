@@ -87,7 +87,10 @@ const ProjectPage = () => {
                 .then((stream) => {
                     const newRecorder =  new MediaRecorder(stream);
                     newRecorder.start();
-                    newRecorder.onstop = stopRecording;
+                    newRecorder.onstop = (e) => {
+                        stopRecording();
+                        newRecorder.stream.getTracks().forEach(track => track.stop());
+                    };
                     newRecorder.ondataavailable = (e) => {
                         chunks.push(e.data);
                         setChunks(chunks => [...chunks, e.data]);
