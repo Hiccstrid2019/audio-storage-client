@@ -16,7 +16,7 @@ const Register = () => {
     const dispatch = useAppDispatch();
     const handleForm = () => {
         if (email.isValid() && username.isValid() && password.isValid()) {
-            dispatch(registration({email: email.value, password: password.value, username: username.value, callback: () => navigate('/')}));
+            dispatch(registration({email: email.value, password: password.value, username: username.value, callback: () => navigate('/project')}));
         } else {
             email.displayErrors();
             username.displayErrors();
