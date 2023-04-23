@@ -2,6 +2,7 @@
     margin: 0 10px;
     transition: all 500ms ease;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .icon:hover {
@@ -26,6 +27,7 @@
 
 .trashIcon {
     margin: 0 10px;
+    cursor: pointer;
 }
 
 .trashIcon:hover {
@@ -34,6 +36,25 @@
 
 .preloader {
     width: 500px;
+}
+
+input[type=range] {
+    width: 80px;
+    -webkit-appearance: none;
+    background-color: #ccc;
+    height: 4px;
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 3px 0 #555;
+    transition: background .3s ease-in-out;
 }
 
 

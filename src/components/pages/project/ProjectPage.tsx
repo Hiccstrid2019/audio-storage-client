@@ -66,6 +66,8 @@ const ProjectPage = () => {
     const timeModified = new Date(project?.timeModified!);
     const [active, setActive] = useState(false);
 
+    const [volumeLevel, setVolumeLevel] = useState(50);
+
     useEffect(() => {
         title.setValue(project?.title!);
         category.setValue(project?.category!);
@@ -116,12 +118,12 @@ const ProjectPage = () => {
 
     useEffect(() => {
         if (titleRef.current?.offsetWidth !== 0)
-            setWidthTitle(titleRef.current?.offsetWidth!);
+            setWidthTitle(titleRef.current?.offsetWidth! + 1);
     },[title]);
 
     useEffect(() => {
         if (categoryRef.current?.offsetWidth !== 0)
-            setWidthCategory(categoryRef.current?.offsetWidth!);
+            setWidthCategory(categoryRef.current?.offsetWidth! + 2);
     },[category]);
 
 
@@ -264,7 +266,12 @@ const ProjectPage = () => {
                         }
                     </div>
                     {
-                        project?.audios?.map(audio => <Audio key={audio.id} audioUrl={audio.url} audioId={audio.id} audioContext={refAudioContext.current}/>)
+                        project?.audios?.map(audio => <Audio key={audio.id}
+                                                             audioUrl={audio.url}
+                                                             audioId={audio.id}
+                                                             audioContext={refAudioContext.current}
+                                                             volumeLevel={volumeLevel}
+                                                             setVolumeLevel={setVolumeLevel}/>)
                     }
                     {active &&
                         <Modal setActive={setActive}>

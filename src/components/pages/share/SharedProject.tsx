@@ -5,20 +5,30 @@ import Audio from "../../ui/Audio/Audio";
 import Poster from "../../ui/Poster/Poster";
 import {ISharedProject} from "../../../models/IProject";
 import ProjectService from "../../../services/ProjectService";
+import Error from "../../ui/Error/Error";
 
 
 const SharedProject = () => {
     const [project, setProject] = useState<ISharedProject>();
+    const [error, setError] = useState();
     const {id} = useParams<string>();
 
     useEffect(() => {
-        ProjectService.fetchSharedProject(id!).then(project => setProject(project.data));
+        ProjectService.fetchSharedProject(id!)
+            .then(project => setProject(project.data))
+            .catch(error => setError(error.response.status));
     }, []);
 
     const refAudioContext = useRef<AudioContext>(new (window.AudioContext || window.webkitAudioContext)());
     const options: Intl.DateTimeFormatOptions = {day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit'}
     const timeCreated = new Date(project?.timeCreated!);
     const timeModified = new Date(project?.timeModified!);
+
+    const [volumeLevel, setVolumeLevel] = useState(50);
+
+    if (error) {
+        return <Error error={error}/>
+    }
 
     return (
         <div className={classes.page}>
@@ -53,12 +63,12 @@ const SharedProject = () => {
                         {project?.title}
                     </div>
                     {
-                        project?.audios?.map(audio => <Audio
-                            key={audio.id}
-                            editable={false}
-                            audioUrl={audio.url}
-                            audioId={audio.id}
-                            audioContext={refAudioContext.current}/>)
+                        project?.audios?.map(audio => <Audio key={audio.id}
+                                                                     audioUrl={audio.url}
+                                                                     audioId={audio.id}
+                                                                     audioContext={refAudioContext.current}
+                                                                     volumeLevel={volumeLevel}
+                                                                     setVolumeLevel={setVolumeLevel}/>)
                     }
 
                 </div>

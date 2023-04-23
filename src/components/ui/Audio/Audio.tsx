@@ -12,9 +12,11 @@ interface AudioProps {
     audioId: string;
     audioContext: AudioContext;
     editable?: boolean;
+    volumeLevel: number;
+    setVolumeLevel: React.Dispatch<number>;
 }
 
-const Audio = ({audioUrl, audioId, audioContext, editable = true}: AudioProps) => {
+const Audio = ({audioUrl, audioId, audioContext, volumeLevel, setVolumeLevel, editable = true}: AudioProps) => {
     useEffect(() => {
         setLoading(true);
         fetch(audioUrl)
@@ -40,11 +42,21 @@ const Audio = ({audioUrl, audioId, audioContext, editable = true}: AudioProps) =
     const [startedAt, setStartedAt] = useState(0);
     const timerRef = useRef<NodeJS.Timer>();
     const dispatch = useAppDispatch();
+    const refGainNode = useRef<GainNode>();
 
     const playTrack = () => {
         if (!play) {
             const newSource = audioContext.createBufferSource();
-            newSource.connect(audioContext.destination);
+
+            const gainNode = audioContext.createGain();
+
+            newSource.connect(gainNode);
+            gainNode.connect(audioContext.destination)
+
+            gainNode.gain.setValueAtTime(volumeLevel / 100, audioContext.currentTime);
+
+            refGainNode.current = gainNode;
+
             if (refAudioBuffer.current) {
                 newSource.buffer = refAudioBuffer.current;
             }
@@ -71,6 +83,11 @@ const Audio = ({audioUrl, audioId, audioContext, editable = true}: AudioProps) =
         setPlay(!play);
     }
 
+    const changeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setVolumeLevel(+e.target.value)
+        refGainNode.current?.gain.setValueAtTime(+e.target.value / 100, audioContext.currentTime);
+    }
+
     const handleDeleteAudio = () => {
         dispatch(deleteAudio(audioId));
     }
@@ -88,6 +105,8 @@ const Audio = ({audioUrl, audioId, audioContext, editable = true}: AudioProps) =
                     </>
             )}
             {editable ? <img src={TrashIcon} className={classes.trashIcon} onClick={handleDeleteAudio}/> : <></>}
+            {play && <input type='range' min='0' max='100' value={volumeLevel} onChange={changeVolume}/>}
+            {/*<input type='range' min='0' max='100' value={volumeLevel} onChange={changeVolume}/>*/}
         </div>
     );
 };
