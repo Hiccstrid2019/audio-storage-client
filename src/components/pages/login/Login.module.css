@@ -26,3 +26,9 @@
     color: rgb(177,76,76);
     height: 16px;
 }
+
+.demo {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}

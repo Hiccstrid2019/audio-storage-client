@@ -5,6 +5,7 @@ import Button from "../../ui/Button/Button";
 import Input from "../../ui/Input/Input";
 import classes from './Login.module.css';
 import {useInput} from "../../../hoc/useInput";
+import {useState} from "react";
 
 const Login = () => {
 
@@ -25,6 +26,13 @@ const Login = () => {
             password.displayErrors();
         }
     };
+    const handleDemo = () => {
+        email.setValue("test@test.com")
+        password.setValue("qwertyuiop")
+        setTimeout(() => {
+            dispatch(login({email: "test@test.com", password: "qwertyuiop", callback: () => navigate(fromPage)}));
+        }, 500);
+    }
 
     return (
         <div className={classes.container}>
@@ -45,6 +53,12 @@ const Login = () => {
             <Button text='Log In' onClick={handleForm} className={classes.loginBtn}/>
             <div className={classes.info}>
                 Don't have an account yet? <Link className={classes.link} to='/register'>Register</Link>
+            </div>
+            <div className={classes.demo}>
+                <div className={classes.info}>
+                    Don't want to create an account right now? try the demo
+                </div>
+                <Button text='Demo account' onClick={handleDemo}/>
             </div>
         </div>
     );
